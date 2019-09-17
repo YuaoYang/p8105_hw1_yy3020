@@ -1,0 +1,67 @@
+---
+title: "hw1"
+author: "YuaoYang"
+date: "2019/9/17"
+output: html_document
+---
+
+
+Problem 1
+```{r setup, include=FALSE}
+# use tibble to create data frame
+library(tidyverse)
+set.seed(1)
+example_df1 = tibble(
+ randon_sample = rnorm(8, mean = 0, sd = 1),
+  logical_vector = randon_sample > 0,
+  character_vector = c("a", "b","c", "d", "e", "f", "g", "h"),
+  factor_vector = factor(c("A", "B", "C", "A", "B", "C", "A", "B"))
+)
+#use mean fuction to caculate the mean value
+randon_sample_mean = mean(pull(example_df1,randon_sample))
+logical_vector_mean = mean((pull(example_df1,logical_vector))
+character_vector_mean = mean((pull(example_df1,character_vector ))
+factor_vector_mean= mean((pull(example_df1,factor_vector))
+#the mean function dose not work on character 
+```
+
+```{r,eval=FALSE}
+as.numeric((pull(example_df1,logical_vector))
+as.numeric((pull(example_df1,character_vector ))
+as.numeric((pull(example_df1,factor_vector))
+# We can find that as.numeric can not work on character.
+```
+
+```{r}
+logical_vector_num = as.numeric(pull(example_df1,logical_vector))
+l = logical_vector_num*pull(example_df1,randon_sample)
+logical_vector_fac =  as.factor(pull(example_df1,logical_vector))
+m = logical_vector_fac*pull(example_df1,randon_sample)
+logical_vector_fac_num = as.numeric(logical_vector_fac)
+n = logical_vector_fac_num*pull(example_df1,randon_sample)
+#Use the as.factor changes logical vector, we get NA. But it works on as.numeric function,TRUE=1, FALSE=0.
+```
+
+Problem 2
+
+```{r}
+#use tibble to create data frame
+set.seed(2)
+example_df2 = tibble(
+  x = rnorm(500, mean=0, sd=1),
+  y = rnorm(500, mean=0, sd=1),
+  df2_log= x+y > 1,
+  df2_log_num = as.numeric(df2_log),
+  df2_log_fac = as.factor(df2_log)
+)
+```
+the size of dataset is (`r nrow(example_df2)`, `r ncol(example_df2)`). The mean of x is (`r mean(pull(example_df2,x))`), the median is  (`r median(pull(example_df2,x))`),the standard deviation is  (`r sd(pull(example_df2,x))`). The proportion of x+y > 1 is (`r sum(pull(example_df2,df2_log))/length(pull(example_df2,df2_log))`)
+```{r}
+ggplot(example_df2, aes(x = x, y = y,  color = df2_log))  + geom_point()
+ggsave("the first scatterplot.pdf" )
+#comment:Red points represent the FALSE, and blue represent TURE. We can find that the blue one is above the red one, because x+y>1, which means blue one >1. We also can find there is like a line to seperate blue and red one which is most appropriate to x+y=1.
+ggplot(example_df2, aes(x = x, y =  y,  color = df2_log_num))  + geom_point()
+#comment:The color changed in blue to dark, the darkest one is 0, the ligher blue is 1, because as.numeric change the TRUE to 1, FALSE to 0.We also can find there is like a line to seperate blue and red one which is most appropriate to x+y=1.
+ggplot(example_df2, aes(x = x, y =  y,  color = df2_log_fac))  + geom_point()
+#comment:The color distribution is the same as it in the first scatterplot.We also can find there is like a line to seperate blue and red one which is most appropriate to x+y=1.
+```

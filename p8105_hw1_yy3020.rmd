@@ -2,33 +2,37 @@
 title: "hw1"
 author: "YuaoYang"
 date: "2019/9/17"
-output: pdf_document
+output: github_document
 ---
 
 
 Problem 1
-```{r setup, include=FALSE}
+```{r setup}
 # use tibble to create data frame
 library(tidyverse)
 set.seed(1)
+randon_sample = rnorm(8, mean = 0, sd = 1)
+logical_vector = randon_sample > 0
+character_vector = c("a", "b","c", "d", "e", "f", "g", "h")
+factor_vector = factor(c("A", "B", "C", "A", "B", "C", "A", "B"))
 example_df1 = tibble(
- randon_sample = rnorm(8, mean = 0, sd = 1),
-  logical_vector = randon_sample > 0,
-  character_vector = c("a", "b","c", "d", "e", "f", "g", "h"),
-  factor_vector = factor(c("A", "B", "C", "A", "B", "C", "A", "B"))
-)
+ randon_sample,
+  logical_vector,
+  character_vector,
+  factor_vector )
+
 #use mean fuction to caculate the mean value
-randon_sample_mean = mean(pull(example_df1,randon_sample))
-logical_vector_mean = mean((pull(example_df1,logical_vector))
-character_vector_mean = mean((pull(example_df1,character_vector ))
-factor_vector_mean= mean((pull(example_df1,factor_vector))
+randon_sample_mean = mean(randon_sample)
+logical_vector_mean = mean(randon_sample)
+character_vector_mean = mean(character_vector)
+factor_vector_mean = mean(factor_vector)
 #the mean function dose not work on character 
 ```
 
 ```{r,eval=FALSE}
-as.numeric((pull(example_df1,logical_vector))
-as.numeric((pull(example_df1,character_vector ))
-as.numeric((pull(example_df1,factor_vector))
+as.numeric(logical_vector)
+as.numeric(character_vector )
+as.numeric(factor_vector)
 # We can find that as.numeric can not work on character.
 ```
 
